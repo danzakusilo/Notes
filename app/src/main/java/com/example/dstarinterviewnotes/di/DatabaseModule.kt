@@ -1,8 +1,7 @@
 package com.example.dstarinterviewnotes.di
 
 import android.app.Application
-import android.content.Context
-import com.example.dstarinterviewnotes.data.database.NotesDatabase
+import com.example.dstarinterviewnotes.data.source.local.database.NotesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

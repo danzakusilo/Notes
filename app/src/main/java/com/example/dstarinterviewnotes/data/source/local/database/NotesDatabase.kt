@@ -1,11 +1,11 @@
-package com.example.dstarinterviewnotes.data.database
+package com.example.dstarinterviewnotes.data.source.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.dstarinterviewnotes.data.database.dao.NotesDao
-import com.example.dstarinterviewnotes.data.database.entities.NoteEntity
+import com.example.dstarinterviewnotes.data.source.local.database.dao.NotesDao
+import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
 
 @Database(entities = [NoteEntity::class], version = 1, exportSchema = true)
 abstract class NotesDatabase : RoomDatabase() {

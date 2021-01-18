@@ -1,7 +1,7 @@
-package com.example.dstarinterviewnotes.data.database.entities.converters
+package com.example.dstarinterviewnotes.data.source.local.database.entities.converters
 
 import androidx.room.TypeConverter
-import com.example.dstarinterviewnotes.data.database.NoteCategory
+import com.example.dstarinterviewnotes.data.source.local.database.NoteCategory
 
 object NoteCategoryConverter {
 
