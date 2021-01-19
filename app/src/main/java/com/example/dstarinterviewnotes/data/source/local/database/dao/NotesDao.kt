@@ -16,8 +16,8 @@ interface NotesDao {
     @Query("SELECT * FROM Note")
     suspend fun getAllNotes() : List<NoteEntity>
 
-    @Delete
-    suspend fun deleteNote(noteEntity: NoteEntity)
+    @Query("delete from Note where id = :id")
+    suspend fun deleteNote(id: Int)
 
     @Query("UPDATE NOTE SET title = :newTitle where id = :id")
     suspend fun changeNoteTitle(id : Int, newTitle : String?)

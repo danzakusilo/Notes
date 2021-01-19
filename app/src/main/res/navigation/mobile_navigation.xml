@@ -3,22 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_note">
+    app:startDestination="@id/navigation_notes">
 
     <fragment
-        android:id="@+id/navigation_note"
-        android:name="com.example.dstarinterviewnotes.ui.detail.NotesFragment"
+        android:id="@+id/navigation_notes"
+        android:name="com.example.dstarinterviewnotes.ui.notes.NotesFragment"
         android:label="@string/title_notes"
-        tools:layout="@layout/fragment_notes" >
+        tools:layout="@layout/fragment_notes">
         <action
-            android:id="@+id/action_navigation_note_to_navigation_detail"
-            app:destination="@id/navigation_detail" />
+            android:id="@+id/action_to_detail"
+            app:destination="@id/note_detail" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_detail"
-        android:name="com.example.dstarinterviewnotes.ui.notes.NotesDetailFragment"
+        android:id="@+id/note_detail"
+        android:name="com.example.dstarinterviewnotes.ui.detail.NotesDetailFragment"
         android:label="@string/title_detail"
-        tools:layout="@layout/fragment_note_detail" />
+        tools:layout="@layout/fragment_note_detail" >
+        <argument
+            android:name="note_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.dstarinterviewnotes.ui.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>
