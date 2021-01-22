@@ -8,25 +8,30 @@
     <fragment
         android:id="@+id/navigation_notes"
         android:name="com.example.dstarinterviewnotes.ui.notes.NotesFragment"
-        android:label="@string/title_notes"
+        android:label="@string/notes_label"
         tools:layout="@layout/fragment_notes">
         <action
             android:id="@+id/action_to_detail"
             app:destination="@id/note_detail" />
+
     </fragment>
 
     <fragment
         android:id="@+id/note_detail"
         android:name="com.example.dstarinterviewnotes.ui.detail.NotesDetailFragment"
-        android:label="@string/title_detail"
+        android:label="@string/detail_label"
         tools:layout="@layout/fragment_note_detail" >
         <argument
             android:name="note_id"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="isNew"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.dstarinterviewnotes.ui.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="@string/settings_label"/>
 
 </navigation>

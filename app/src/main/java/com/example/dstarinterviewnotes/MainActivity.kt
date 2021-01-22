@@ -1,9 +1,15 @@
 package com.example.dstarinterviewnotes
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -15,11 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //private val binding by viewBinding(ActivityMainBinding::inflate)
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -27,18 +35,25 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+       binding.container.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            binding.container.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = binding.container.rootView.height
+            val keyPadHeight = screenHeight - rect.bottom
+            val navbar : BottomNavigationView = binding.navView
+            if (keyPadHeight > screenHeight * 0.15){
+                navbar.visibility = View.GONE
+            }else{
+                navbar.visibility = View.VISIBLE
+            }
+        }
     }
-
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-   /* private inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
-        crossinline bindingInflater: (LayoutInflater) -> T) =
-        lazy(LazyThreadSafetyMode.NONE) {
-            bindingInflater.invoke(layoutInflater)
-        }
-*/
+
+
 }

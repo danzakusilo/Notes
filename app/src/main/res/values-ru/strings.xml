@@ -2,5 +2,23 @@
 <resources>
     <string name="hint_title">Название</string>
     <string name="hint_content">Содержание</string>
+    <string name="delete">Удалить</string>
+    <string name="take_photo">Сделать фото</string>
+    <string name="select_from_gallery">Выбрать из галлереи</string>
+    <string name="cancel">Отмена</string>
+    <string name="picture_source">Добавить изображение в эту заметку</string>
+    <string name="language">Язык</string>
+    <string name="theme_switch">Дневной / ночной режим</string>
+    <string name="notes_label">Заметки</string>
+    <string name="settings_label">Настройки</string>
+    <string name="detail_label">Детали</string>
+    <string name="category_business">Бизнес</string>
+    <string name="category_sports">Спорт</string>
+    <string name="category_default">Без категории</string>
 
+    <string-array name="sorting_patterns">
+        <item>Дата</item>
+        <item>Название</item>
+        <item>Категория</item>
+    </string-array>
 </resources>

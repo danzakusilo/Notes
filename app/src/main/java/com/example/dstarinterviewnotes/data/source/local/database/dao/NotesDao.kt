@@ -13,8 +13,14 @@ interface NotesDao {
     @Insert
     suspend fun insertNote(noteEntity: NoteEntity)
 
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM NOTE WHERE id = :id")
+    suspend fun getNoteById(id : Int) : NoteEntity
+
+    @Query("SELECT * FROM Note ORDER BY creationTime")
     suspend fun getAllNotes() : List<NoteEntity>
+
+    @Query("SELECT * FROM NOTE WHERE category = :category")
+    suspend fun getByCategory(category : String) : List<NoteEntity>
 
     @Query("delete from Note where id = :id")
     suspend fun deleteNote(id: Int)
@@ -26,6 +32,6 @@ interface NotesDao {
     suspend fun changeNoteContent(id : Int, newContent: String?)
 
     @Query("UPDATE NOTE SET category = :newCategory where id = :id")
-    suspend fun changeNoteCategory(id : Int, newCategory : String)
+    suspend fun changeNoteCategory(id : Int, newCategory : String?)
 
 }

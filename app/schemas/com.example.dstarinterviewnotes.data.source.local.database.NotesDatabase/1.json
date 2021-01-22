@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3deed5d00bfdceb030fc2cd4595105e4",
+    "identityHash": "82f60362907a4e5069fb0a4436a09d45",
     "entities": [
       {
         "tableName": "Note",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT, `content` TEXT, `category` TEXT NOT NULL, `creationTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `content` TEXT, `category` TEXT NOT NULL, `creationTime` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -43,7 +43,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -52,7 +52,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3deed5d00bfdceb030fc2cd4595105e4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82f60362907a4e5069fb0a4436a09d45')"
     ]
   }
 }

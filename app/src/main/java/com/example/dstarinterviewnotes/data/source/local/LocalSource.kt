@@ -7,7 +7,11 @@ interface LocalSource {
 
     suspend fun insertNote(note : NoteEntity)
 
-    suspend fun getNotes() : List<NoteEntity>
+    suspend fun getNoteById(id : Int) : NoteEntity?
+
+    suspend fun getNotes() : List<NoteEntity>?
+
+    suspend fun getByCategory(category : String) : List<NoteEntity>?
 
     suspend fun deleteNote(id : Int)
 
@@ -15,5 +19,5 @@ interface LocalSource {
 
     suspend fun changeNoteContent(id : Int, newContent: String?)
 
-    suspend fun changeNoteCategory(id : Int, newCategory : String)
+    suspend fun changeNoteCategory(id : Int, newCategory : String?)
 }

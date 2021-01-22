@@ -7,8 +7,23 @@
     android:layout_width="210dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/note_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/delete_image"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_forever_24px">
+
+        </ImageView>
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,8 +34,9 @@
             android:layout_height="wrap_content">
         </ImageView>
         <TextView
+            android:layout_marginHorizontal="4dp"
             android:textSize="18sp"
-            android:textColor="@color/black"
+            android:textColor="@color/primary_note_title"
             android:layout_marginVertical="1dp"
             android:id="@+id/title_tv"
             android:layout_width="match_parent"
@@ -31,6 +47,8 @@
             android:layout_height="1dp"
             android:background="@android:color/black"/>
         <TextView
+            android:textColor="@color/primary_note_text"
+            android:layout_marginStart="4dp"
             android:ellipsize="marquee"
             android:textSize="16sp"
             android:marqueeRepeatLimit="0"
@@ -38,21 +56,21 @@
             android:id="@+id/content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
         </TextView>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/black"/>
         <TextView
+            android:textColor="@color/primary_note_text"
+            android:layout_marginHorizontal="4dp"
             android:textSize="12sp"
             android:lines="1"
             android:id="@+id/timestamp_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </TextView>
-
-    </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

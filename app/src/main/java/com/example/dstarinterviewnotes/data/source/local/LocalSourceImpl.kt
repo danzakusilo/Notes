@@ -10,8 +10,16 @@ class LocalSourceImpl @Inject constructor(private val dao : NotesDao) : LocalSou
         dao.insertNote(note)
     }
 
+    override suspend fun getNoteById(id: Int): NoteEntity {
+        return dao.getNoteById(id)
+    }
+
     override suspend fun getNotes(): List<NoteEntity> {
         return dao.getAllNotes()
+    }
+
+    override suspend fun getByCategory(category: String): List<NoteEntity> {
+        return dao.getByCategory(category)
     }
 
     override suspend fun deleteNote(id: Int) {
@@ -26,7 +34,7 @@ class LocalSourceImpl @Inject constructor(private val dao : NotesDao) : LocalSou
        dao.changeNoteContent(id, newContent)
     }
 
-    override suspend fun changeNoteCategory(id: Int, newCategory: String) {
+    override suspend fun changeNoteCategory(id: Int, newCategory: String?) {
         dao.changeNoteCategory(id, newCategory)
     }
 }

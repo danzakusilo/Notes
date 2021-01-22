@@ -1,21 +1,30 @@
 package com.example.dstarinterviewnotes.ui.notes
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupMenu
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.view.menu.MenuPopupHelper
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dstarinterviewnotes.R
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
 import com.example.dstarinterviewnotes.databinding.CardviewNoteItemBinding
+import com.example.dstarinterviewnotes.utils.toDateTime
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.OffsetDateTime
-import java.time.ZoneId
+import java.time.*
 import java.util.*
 
-class NotesAdapter constructor(private val context : Context) : ListAdapter<NoteEntity, NotesAdapter.NoteViewHolder>(NotesCallback()) {
+class NotesAdapter constructor(private val context : Context, private val viewModel : NotesViewModel)
+    : ListAdapter<NoteEntity, NotesAdapter.NoteViewHolder>(NotesCallback()) {
     val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -32,19 +41,39 @@ class NotesAdapter constructor(private val context : Context) : ListAdapter<Note
 
     inner class NoteViewHolder(
         private val binding : CardviewNoteItemBinding,
-        private val context : Context
-    ) : RecyclerView.ViewHolder(binding.root){
-
+        private val context : Context,
+    ) : RecyclerView.ViewHolder(binding.root), PopupMenu.OnMenuItemClickListener{
 
         fun bind(note : NoteEntity){
-            val action = NotesFragmentDirections.actionToDetail(note.id)
+            val action = NotesFragmentDirections.actionToDetail(note.id, false)
             binding.contentTv.text = note.content
             binding.titleTv.text = note.title
-            binding.timestampTv.text = format.format(note.creationTime)
+            binding.timestampTv.text = toDateTime(note.creationTime)
             binding.noteItemLayout.setOnClickListener {
                 view -> view.findNavController().navigate(action)
             }
+            binding.noteItemLayout.setOnLongClickListener{
+                showPopupMenu(it)
+                return@setOnLongClickListener true
+            }
         }
+        @SuppressLint("RestrictedApi")
+        private fun showPopupMenu(view : View){
+            val menu = PopupMenu(view.context, view)
+            menu.inflate(R.menu.note_context_menu)
+            menu.setOnMenuItemClickListener(this)
+            menu.show()
+        }
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                return when(item!!.itemId){
+                    R.id.delete_menu_option ->{ viewModel.deleteNote(currentList[adapterPosition].id)
+                        viewModel.getNotes()
+                        true
+                    }else -> false
+                }
+        }
+
+
     }
 
     class NotesCallback() :DiffUtil.ItemCallback<NoteEntity>(){
@@ -55,5 +84,9 @@ class NotesAdapter constructor(private val context : Context) : ListAdapter<Note
             = oldItem == newItem
 
     }
+
+
+
+
 
 }
