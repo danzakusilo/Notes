@@ -16,10 +16,10 @@ import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,139 +38,100 @@ import kotlinx.android.synthetic.main.fragment_note_detail.view.*
 class NotesDetailFragment : Fragment() {
 
     private val CAMERA_REQUEST_CODE = 0
-    private val args : NotesDetailFragmentArgs by navArgs()
-    private val viewModel : DetailViewModel by viewModels()
-    private lateinit var binding : FragmentNoteDetailBinding
+    private val args: NotesDetailFragmentArgs by navArgs()
+    private val viewModel: DetailViewModel by viewModels()
+    private lateinit var binding: FragmentNoteDetailBinding
+    private var actionMode: ActionMode? = null
+    private val callback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            requireActivity().menuInflater.inflate(R.menu.top_bar_menu, menu)
+            return true
+        }
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false
+        }
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            return when (item?.itemId) {
+                R.id.confirm_button_appbar -> {
+                    saveNote()
+                    findNavController().navigateUp()
+                    true
+                }else -> false
+            }
+        }
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            findNavController().navigateUp()
+        }
+    }
+
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNoteDetailBinding.inflate(inflater)
-
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!args.isNew){
+        if (!args.isNew) {
             viewModel.getNote(args.noteId)
             observeNote()
         }
-        binding.confirmButton.setOnClickListener {
-            if (args.isNew) {
-                viewModel.saveNote(
-                    NoteEntity(
-                        args.noteId,
-                        binding.titleEt.text.toString(),
-                        binding.contentEt.text.toString(),
-                        NoteCategory.DEFAULT,
-                        System.currentTimeMillis(),
-                    )
-                )
-            }else if (!args.isNew && args.noteId != 0){
-                viewModel.editTitle(args.noteId, binding.titleEt.text.toString())
-                viewModel.editContent(args.noteId, binding.titleEt.text.toString())
-            }
-            findNavController().navigateUp()
-        }
-
-        binding.addImageButton.setOnClickListener{
-            showImageSelectDialogue(requireActivity())
-        }
-
+        actionMode = requireActivity().startActionMode(callback)
+        actionMode?.title = getString(R.string.detail_label)
         binding.detailLayout.viewTreeObserver.addOnGlobalLayoutListener {
             val rect = Rect()
             binding.detailLayout.getWindowVisibleDisplayFrame(rect)
             val screenHeight = binding.detailLayout.rootView.height
             val keyPadHeight = screenHeight - rect.bottom
-            //val navbar : BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
-            if (keyPadHeight > screenHeight * 0.15){
+            if (keyPadHeight > screenHeight * 0.15) {
                 binding.addImageButton.visibility = View.VISIBLE
-                binding.confirmButton.visibility = View.VISIBLE
-                //navbar.visibility = View.GONE
-            }else{
+            } else {
                 binding.addImageButton.visibility = View.GONE
-                binding.confirmButton.visibility = View.GONE
-                //navbar.visibility = View.VISIBLE
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        actionMode?.finish()
     }
 
     private fun observeNote() {
         viewModel.note.observe(
-            viewLifecycleOwner,
-            {
-                binding.titleEt.setText(it.title)
-                binding.contentEt.setText(it.content)
-                //val imageSource = ImageDecoder.createSource(requireActivity().contentResolver, Uri.parse(it.imageURI))
-               // val bitmap = ImageDecoder.decodeBitmap(imageSource)
-                //binding.noteImage.setImageBitmap(bitmap)
-            }
+                viewLifecycleOwner,
+                {
+                    binding.titleEt.setText(it.title)
+                    binding.contentEt.setText(it.content)
+                    //val imageSource = ImageDecoder.createSource(requireActivity().contentResolver, Uri.parse(it.imageURI))
+                    // val bitmap = ImageDecoder.decodeBitmap(imageSource)
+                    //binding.noteImage.setImageBitmap(bitmap)
+                }
         )
     }
-
-    private fun showImageSelectDialogue(context: Context){
-        val options = arrayOf(getString(R.string.take_photo),getString(R.string.select_from_gallery),getString(R.string.cancel))
-        val dialogueBuilder = AlertDialog.Builder(context)
-        dialogueBuilder
-                .setTitle(getString(R.string.picture_source))
-                .setItems(options, object : DialogInterface.OnClickListener{
-            override fun onClick(dialog: DialogInterface?, item: Int) {
-                when(options[item]){
-                    getString(R.string.take_photo) -> {
-                        val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(takePicture, CAMERA_REQUEST_CODE)
-                    }
-                    getString(R.string.select_from_gallery) ->{
-                        val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        startActivityForResult(pickPhoto, 1)
-                    }
-                    getString(R.string.cancel) -> {
-                        dialog!!.dismiss()
-                    }
-                }
-            }
-        })
-                .show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_CANCELED){
-            when(requestCode){
-                0 -> {
-                    if (resultCode == RESULT_OK && data != null){
-                        val image : Bitmap? = data.extras!!.get("data") as Bitmap?
-                        Log.d("resultCode","RESULT_OK AND uri == $image"  )
-                        //val source = ImageDecoder.createSource(requireActivity().contentResolver, imageUri!!)
-                        //val bitmap = ImageDecoder.decodeBitmap(source)
-                        binding.noteImage.setImageBitmap(image)
-                    }
-                }
-                1 -> {
-                    if (resultCode == RESULT_OK && data != null){
-                        val imageUri : Uri? = data.data
-                        val cursor: Cursor?
-                        val filePathColumn = arrayOf(MediaStore.Images.Media._ID)
-                        val columnIndex : Int
-                        cursor = requireActivity().contentResolver.query(imageUri!!, filePathColumn, null, null, null)
-                        if (cursor != null){
-                            cursor.moveToFirst()
-                            columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                            val picturePath = cursor.getString(columnIndex)
-                            binding.noteImage.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-                            cursor.close()
-                            }
-                        }
-                    }
-                }
-            }else
-                Log.d("CANCELED","CANCELED")
+    private fun saveNote(){
+        if (args.isNew) {
+            viewModel.saveNote(
+                    NoteEntity(
+                            args.noteId,
+                            binding.titleEt.text.toString(),
+                            binding.contentEt.text.toString(),
+                            NoteCategory.DEFAULT,
+                            System.currentTimeMillis(),
+                    )
+            )
+        } else if (!args.isNew && args.noteId != 0) {
+            viewModel.editTitle(args.noteId, binding.titleEt.text.toString())
+            viewModel.editContent(args.noteId, binding.contentEt.text.toString())
         }
     }
+
+}
+
 
 

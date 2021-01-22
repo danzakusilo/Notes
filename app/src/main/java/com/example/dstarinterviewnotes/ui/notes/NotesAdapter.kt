@@ -1,7 +1,9 @@
 package com.example.dstarinterviewnotes.ui.notes
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -66,11 +68,27 @@ class NotesAdapter constructor(private val context : Context, private val viewMo
         }
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 return when(item!!.itemId){
-                    R.id.delete_menu_option ->{ viewModel.deleteNote(currentList[adapterPosition].id)
-                        viewModel.getNotes()
+                    R.id.delete_menu_option ->{ showDialog(context, R.style.AlertDialogCustom)
                         true
                     }else -> false
                 }
+        }
+
+        private fun showDialog(context: Context, themeId : Int){
+            val dialog = AlertDialog.Builder(context, themeId)
+            dialog.apply {
+                setPositiveButton(R.string.delete
+                ) { _, _ ->
+                    viewModel.deleteNote(currentList[adapterPosition].id)
+                    viewModel.getNotes()
+                }
+                setNegativeButton(R.string.cancel
+                ){dialog, _, ->
+                    dialog.dismiss()
+                }
+                dialog.setTitle(R.string.note_delete_confirmation)
+            }
+            dialog.show()
         }
 
 

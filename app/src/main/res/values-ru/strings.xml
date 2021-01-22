@@ -15,6 +15,7 @@
     <string name="category_business">Бизнес</string>
     <string name="category_sports">Спорт</string>
     <string name="category_default">Без категории</string>
+    <string name="note_delete_confirmation">Удалить эту заметку?</string>
 
     <string-array name="sorting_patterns">
         <item>Дата</item>

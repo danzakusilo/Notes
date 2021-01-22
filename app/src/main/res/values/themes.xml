@@ -2,9 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.DStarInterviewNotes" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#E7DFC6</item>
+        <item name="actionModeBackground">@color/light_peach</item>
+        <item name="colorPrimary">@color/light_peach</item>
         <item name="statusBarBackground">#00120B</item>
-        <item name="colorPrimaryVariant">#E7DFC6</item>
+        <item name="colorPrimaryVariant">@color/light_peach</item>
         <item name="colorOnPrimary">#00120B</item>
 
         <!-- Secondary brand color. -->
@@ -16,7 +17,11 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <color name="primary_background">#E7DFC6</color>
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:textColor">@color/primary_note_title</item>
+    </style>
+
+    <color name="primary_background">@color/light_peach</color>
     <color name="primary_note">#FFFFFF</color>
     <color name="primary_note_title">#000000</color>
     <color name="primary_note_text">#000000</color>
@@ -25,6 +30,7 @@
         <item name="android:background">?attr/colorSurface</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
 
 
 </resources>

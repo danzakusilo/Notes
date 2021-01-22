@@ -1,5 +1,7 @@
 package com.example.dstarinterviewnotes.ui.notes
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,6 +28,7 @@ class NotesFragment : Fragment(){
     private lateinit var adapter: NotesAdapter
     private val viewModel : NotesViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +36,7 @@ class NotesFragment : Fragment(){
     ): View? {
         binding = FragmentNotesBinding.inflate(inflater)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +56,6 @@ class NotesFragment : Fragment(){
         setupSortSpinner()
         setupCategorySpinner()
 
-
         binding.searchEt.addTextChangedListener(
                 object : TextWatcher {
                     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -70,24 +73,25 @@ class NotesFragment : Fragment(){
         )
     }
 
-    private fun setupCategorySpinner(){
+    private fun setupCategorySpinner() {
         ArrayAdapter(
-            requireActivity(),
-            android.R.layout.simple_spinner_item,
-            NoteCategory.values()).also {
+                requireActivity(),
+                android.R.layout.simple_spinner_item,
+                NoteCategory.values()).also {
             it.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
             binding.categorySpinner.adapter = it
         }
 
-        binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
             ) {
-                viewModel.notes.value?.filter { it.category == binding.categorySpinner.selectedItem as NoteCategory }
+                adapter.submitList(viewModel.notes.value?.filter { it.category == binding.categorySpinner.selectedItem as NoteCategory })
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
@@ -152,5 +156,8 @@ class NotesFragment : Fragment(){
             }
         )
     }
+
+
+
 
 }
