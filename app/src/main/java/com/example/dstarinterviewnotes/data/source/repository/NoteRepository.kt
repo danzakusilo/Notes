@@ -1,9 +1,12 @@
 package com.example.dstarinterviewnotes.data.source.repository
 
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
+import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteUpdate
 import com.example.dstarinterviewnotes.utils.MResult
 
 interface NoteRepository {
+
+    suspend fun changeNoteImageUri(id: Int, newUri : String?)
 
     suspend fun insertNote(note : NoteEntity)
 

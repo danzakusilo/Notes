@@ -16,6 +16,7 @@
     <string name="category_sports">Sports</string>
     <string name="category_default">No category</string>
     <string name="note_delete_confirmation">Delete this note?</string>
+    <string name="image_delete_confirmation">Delete this image?</string>
 
     <string-array name="languages">
         <item>ru</item>
@@ -24,6 +25,5 @@
     <string-array name="sorting_patterns">
         <item>CreationTime</item>
         <item>Title</item>
-        <item>Category</item>
     </string-array>
 </resources>

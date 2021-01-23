@@ -15,5 +15,13 @@ data class NoteEntity(
     val content : String?,
     val category : NoteCategory,
     val creationTime : Long,
-    //val imageURI : String?
+    val imageURI : String?
+)
+
+@Entity
+data class NoteUpdate(
+    val title: String?,
+    val content: String?,
+    val category: NoteCategory,
+    val imageURI: String?
 )

@@ -2,6 +2,10 @@
 <resources>
     <style name="Widget.AppCompat.ActionMode.">
         <item name="android:background">?android:attr/actionModeBackground</item>
-
     </style>
+
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.DayNight">
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    </style>
+
 </resources>

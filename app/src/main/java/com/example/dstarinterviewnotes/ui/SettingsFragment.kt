@@ -1,6 +1,8 @@
 package com.example.dstarinterviewnotes.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
@@ -14,12 +16,16 @@ import androidx.fragment.app.Fragment
 import com.example.dstarinterviewnotes.MainActivity
 import com.example.dstarinterviewnotes.R
 import com.example.dstarinterviewnotes.databinding.FragmentSettingsBinding
+import com.example.dstarinterviewnotes.utils.setLocale
 import com.example.dstarinterviewnotes.utils.viewBinding
 import kotlinx.android.synthetic.main.fragment_note_detail.*
 import java.util.*
 
 class SettingsFragment : Fragment() {
     private lateinit var binding : FragmentSettingsBinding
+    private var sharedPref : SharedPreferences? = null
+    private var language : String? = ""
+
 
 
     override fun onCreateView(
@@ -28,13 +34,14 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater)
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.themeSwitch.isChecked = sharedPref!!.getBoolean("DARK_MODE", false)
         ArrayAdapter.createFromResource(
             requireActivity(),
             R.array.languages,
@@ -47,18 +54,38 @@ class SettingsFragment : Fragment() {
 
 
         binding.settingsConfirm.setOnClickListener {
-            setLocale(binding.languageSpinner.selectedItem.toString())
+            setLocale(binding.languageSpinner.selectedItem.toString(), requireActivity())
+            with(sharedPref!!.edit()){
+                putString("LANGUAGE", binding.languageSpinner.selectedItem.toString())
+                apply()
+            }
+            setLocale(sharedPref!!.getString("LANGUAGE", "ru"), requireActivity())
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
 
         }
 
-        binding.themeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             when(isChecked){
-                true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                true -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    with(sharedPref!!.edit()){
+                        putBoolean("DARTK_MODE", true)
+                        apply()
+                    }
+                }
+                false -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    with(sharedPref!!.edit()){
+                        putBoolean("DARK_MODE", false)
+                        apply()
+
+                    }
+
+                }
             }
         }
-
-
     }
 
 
@@ -72,18 +99,6 @@ class SettingsFragment : Fragment() {
 //        startActivity(refresh)
 //    }
 
-    //Метод с deprecated методами, но работает
-    fun setLocale(lang: String?) {
-        val myLocale = Locale(lang)
-        val res: Resources = resources
-        val dm: DisplayMetrics = res.getDisplayMetrics()
-        val conf: Configuration = res.getConfiguration()
-        conf.locale = myLocale
-        res.updateConfiguration(conf, dm)
-        val refresh = Intent(requireActivity(), MainActivity::class.java)
-        requireActivity().finish()
-        startActivity(refresh)
-    }
 
 
 

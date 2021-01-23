@@ -2,10 +2,14 @@ package com.example.dstarinterviewnotes.data.source.repository
 
 import com.example.dstarinterviewnotes.data.source.local.LocalSource
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
+import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteUpdate
 import com.example.dstarinterviewnotes.utils.MResult
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(private val localSource: LocalSource) : NoteRepository {
+    override suspend fun changeNoteImageUri(id: Int, newUri: String?) {
+        localSource.changeNoteImageUri(id, newUri)
+    }
 
     override suspend fun insertNote(note: NoteEntity) {
         localSource.insertNote(note)

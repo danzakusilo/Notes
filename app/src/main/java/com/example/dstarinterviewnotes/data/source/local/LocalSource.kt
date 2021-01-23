@@ -2,8 +2,11 @@ package com.example.dstarinterviewnotes.data.source.local
 
 import androidx.room.Query
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
+import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteUpdate
 
 interface LocalSource {
+
+    suspend fun changeNoteImageUri(id: Int, newUri : String?)
 
     suspend fun insertNote(note : NoteEntity)
 

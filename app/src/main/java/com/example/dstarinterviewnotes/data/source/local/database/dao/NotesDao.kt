@@ -1,11 +1,8 @@
 package com.example.dstarinterviewnotes.data.source.local.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import com.example.dstarinterviewnotes.data.source.local.database.NoteCategory
+import androidx.room.*
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
+import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteUpdate
 
 @Dao
 interface NotesDao {
@@ -34,4 +31,6 @@ interface NotesDao {
     @Query("UPDATE NOTE SET category = :newCategory where id = :id")
     suspend fun changeNoteCategory(id : Int, newCategory : String?)
 
+    @Query("UPDATE NOTE SET imageURI = :newUri where id = :id")
+    suspend fun changeNoteImageUri(id: Int, newUri : String?)
 }

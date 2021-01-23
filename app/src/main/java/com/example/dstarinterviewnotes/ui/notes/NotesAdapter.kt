@@ -17,6 +17,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.dstarinterviewnotes.R
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
 import com.example.dstarinterviewnotes.databinding.CardviewNoteItemBinding
@@ -58,8 +60,11 @@ class NotesAdapter constructor(private val context : Context, private val viewMo
                 showPopupMenu(it)
                 return@setOnLongClickListener true
             }
+            if (!note.imageURI.isNullOrBlank()) {
+                Glide.with(context).load(note.imageURI).apply(RequestOptions.overrideOf(400)).into(binding.imagePreview)
+            }
         }
-        @SuppressLint("RestrictedApi")
+
         private fun showPopupMenu(view : View){
             val menu = PopupMenu(view.context, view)
             menu.inflate(R.menu.note_context_menu)
@@ -68,13 +73,13 @@ class NotesAdapter constructor(private val context : Context, private val viewMo
         }
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 return when(item!!.itemId){
-                    R.id.delete_menu_option ->{ showDialog(context, R.style.AlertDialogCustom)
+                    R.id.delete_menu_option ->{ showDeleteDialog(context, R.style.AlertDialogCustom)
                         true
                     }else -> false
                 }
         }
 
-        private fun showDialog(context: Context, themeId : Int){
+        private fun showDeleteDialog(context: Context, themeId : Int){
             val dialog = AlertDialog.Builder(context, themeId)
             dialog.apply {
                 setPositiveButton(R.string.delete

@@ -19,6 +19,7 @@
     <color name="primary_note">#404040</color>
     <color name="primary_note_title">#FFFFFF</color>
     <color name="primary_note_text">#FFFFFF</color>
+    <color name="secondary_background">@color/light_peach</color>
 
 
 </resources>

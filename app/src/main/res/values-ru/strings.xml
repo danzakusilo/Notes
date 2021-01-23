@@ -16,10 +16,11 @@
     <string name="category_sports">Спорт</string>
     <string name="category_default">Без категории</string>
     <string name="note_delete_confirmation">Удалить эту заметку?</string>
+    <string name="image_delete_confirmation">Удалить это изображение?</string>
+
 
     <string-array name="sorting_patterns">
         <item>Дата</item>
         <item>Название</item>
-        <item>Категория</item>
     </string-array>
 </resources>
