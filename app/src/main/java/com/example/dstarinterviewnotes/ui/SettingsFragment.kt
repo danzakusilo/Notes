@@ -41,7 +41,12 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.themeSwitch.isChecked = sharedPref!!.getBoolean("DARK_MODE", false)
+        binding.themeSwitch.isChecked =
+                when(AppCompatDelegate.getDefaultNightMode()){
+                    AppCompatDelegate.MODE_NIGHT_YES -> true
+                    AppCompatDelegate.MODE_NIGHT_NO -> false
+                    else -> false
+                }
         ArrayAdapter.createFromResource(
             requireActivity(),
             R.array.languages,
@@ -50,6 +55,7 @@ class SettingsFragment : Fragment() {
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
             binding.languageSpinner.adapter = arrayAdapter
         }
+
 
 
 
@@ -71,14 +77,14 @@ class SettingsFragment : Fragment() {
                 true -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     with(sharedPref!!.edit()){
-                        putBoolean("DARTK_MODE", true)
+                        putInt("NIGHT_MODE", 2)
                         apply()
                     }
                 }
                 false -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     with(sharedPref!!.edit()){
-                        putBoolean("DARK_MODE", false)
+                        putInt("NIGHT_MODE", 1)
                         apply()
 
                     }

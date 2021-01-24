@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
@@ -51,20 +50,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-
-       binding.container.viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = Rect()
-            binding.container.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = binding.container.rootView.height
-            val keyPadHeight = screenHeight - rect.bottom
-            val navbar : BottomNavigationView = binding.navView
-            if (keyPadHeight > screenHeight * 0.15){
-                navbar.visibility = View.GONE
-            }else{
-                navbar.visibility = View.VISIBLE
-            }
-        }
 
     }
 

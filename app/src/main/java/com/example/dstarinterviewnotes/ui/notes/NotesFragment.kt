@@ -136,7 +136,6 @@ class NotesFragment : Fragment(){
             { notes ->
                 notes?.let {
                     adapter.submitList(notes)
-                    Log.d("Note2", "$notes")
                     adapter.notifyDataSetChanged()
                 }
             }
