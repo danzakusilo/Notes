@@ -22,15 +22,21 @@ interface NotesDao {
     @Query("delete from Note where id = :id")
     suspend fun deleteNote(id: Int)
 
+    /*
+    В Room есть поддрежка UPDATE запросов, в которых нужно создать новую сущность для обновлений, типа
+    UpdateNote(*values to udpate*), но я понимаю это так, что при этом нужно заранее знать,
+    какие значение будут обновляться всегда при вызове этой подсущности, что не рабоатет в моём случае,
+    поэтому для каждого поля свой метод для обновления
+    */
     @Query("UPDATE NOTE SET title = :newTitle where id = :id")
-    suspend fun changeNoteTitle(id : Int, newTitle : String?)
+    suspend fun updateNoteTitle(id : Int, newTitle : String?)
 
     @Query("Update note set content = :newContent where id = :id")
-    suspend fun changeNoteContent(id : Int, newContent: String?)
+    suspend fun updateNoteContent(id : Int, newContent: String?)
 
     @Query("UPDATE NOTE SET category = :newCategory where id = :id")
-    suspend fun changeNoteCategory(id : Int, newCategory : String?)
+    suspend fun updateNoteCategory(id : Int, newCategory : String?)
 
     @Query("UPDATE NOTE SET imageURI = :newUri where id = :id")
-    suspend fun changeNoteImageUri(id: Int, newUri : String?)
+    suspend fun updateNoteImageUri(id: Int, newUri : String?)
 }

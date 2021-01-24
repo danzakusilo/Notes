@@ -33,14 +33,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPref = getPreferences(Context.MODE_PRIVATE)
-        nightMode = sharedPref!!.getInt("NIGHT_MODE", 1)
-        language = sharedPref!!.getString("LANGUAGE", "en")
-        setLocale(language, this)
-        AppCompatDelegate.setDefaultNightMode(nightMode)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        restoreSettings()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -53,9 +49,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun restoreSettings(){
+        sharedPref = getPreferences(Context.MODE_PRIVATE)
+        nightMode = sharedPref!!.getInt("NIGHT_MODE", 1)
+        language = sharedPref!!.getString("LANGUAGE", "en")
+        setLocale(language, this)
+        AppCompatDelegate.setDefaultNightMode(nightMode)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
         nightMode = AppCompatDelegate.getDefaultNightMode()
         sharedPref = getPreferences(Context.MODE_PRIVATE)
         language = sharedPref!!.getString("LANGUAGE", "en")

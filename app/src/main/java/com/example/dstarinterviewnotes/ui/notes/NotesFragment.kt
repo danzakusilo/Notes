@@ -1,12 +1,8 @@
 package com.example.dstarinterviewnotes.ui.notes
 
-import android.content.Context
-import android.content.ContextWrapper
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,12 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dstarinterviewnotes.R
-import com.example.dstarinterviewnotes.data.source.local.database.NoteCategory
 import com.example.dstarinterviewnotes.databinding.FragmentNotesBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
 
 
@@ -44,7 +36,6 @@ class NotesFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         adapter = NotesAdapter(requireActivity(), viewModel)
         binding.notesRv.layoutManager =

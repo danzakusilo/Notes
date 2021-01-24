@@ -1,18 +1,12 @@
 package com.example.dstarinterviewnotes.ui.notes
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupMenu
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.view.menu.MenuPopupHelper
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -23,13 +17,11 @@ import com.example.dstarinterviewnotes.R
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
 import com.example.dstarinterviewnotes.databinding.CardviewNoteItemBinding
 import com.example.dstarinterviewnotes.utils.toDateTime
-import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
 
 class NotesAdapter constructor(private val context : Context, private val viewModel : NotesViewModel)
     : ListAdapter<NoteEntity, NotesAdapter.NoteViewHolder>(NotesCallback()) {
-    val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CardviewNoteItemBinding.inflate(inflater, parent, false)
@@ -58,7 +50,7 @@ class NotesAdapter constructor(private val context : Context, private val viewMo
             }
             binding.noteItemLayout.setOnLongClickListener{
                 showPopupMenu(it)
-                return@setOnLongClickListener true
+                true
             }
             if (!note.imageURI.isNullOrBlank()) {
                 Glide.with(context).load(note.imageURI).apply(RequestOptions.overrideOf(400)).into(binding.imagePreview)
@@ -98,7 +90,6 @@ class NotesAdapter constructor(private val context : Context, private val viewMo
 
 
     }
-
     class NotesCallback() :DiffUtil.ItemCallback<NoteEntity>(){
         override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity): Boolean
             = oldItem == newItem
@@ -107,9 +98,4 @@ class NotesAdapter constructor(private val context : Context, private val viewMo
             = oldItem == newItem
 
     }
-
-
-
-
-
 }

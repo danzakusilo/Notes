@@ -1,8 +1,6 @@
 package com.example.dstarinterviewnotes.ui.notes
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +8,6 @@ import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteE
 import com.example.dstarinterviewnotes.data.source.repository.NoteRepository
 import com.example.dstarinterviewnotes.utils.MResult
 import kotlinx.coroutines.launch
-import java.io.IOException
-import kotlin.jvm.Throws
 
 class NotesViewModel @ViewModelInject constructor(private val repository: NoteRepository) : ViewModel() {
 

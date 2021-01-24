@@ -6,8 +6,8 @@ import com.example.dstarinterviewnotes.utils.MResult
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(private val dao: NotesDao) : NoteRepository {
-    override suspend fun changeNoteImageUri(id: Int, newUri: String?) {
-        dao.changeNoteImageUri(id, newUri)
+    override suspend fun updateNoteImageUri(id: Int, newUri: String?) {
+        dao.updateNoteImageUri(id, newUri)
     }
 
     override suspend fun insertNote(note: NoteEntity) {
@@ -41,15 +41,15 @@ class NoteRepositoryImpl @Inject constructor(private val dao: NotesDao) : NoteRe
         dao.deleteNote(id)
     }
 
-    override suspend fun changeNoteTitle(id: Int, newTitle: String?) {
-        dao.changeNoteTitle(id, newTitle)
+    override suspend fun updateNoteTitle(id: Int, newTitle: String?) {
+        dao.updateNoteTitle(id, newTitle)
     }
 
-    override suspend fun changeNoteContent(id: Int, newContent: String?) {
-        dao.changeNoteContent(id, newContent)
+    override suspend fun updateNoteContent(id: Int, newContent: String?) {
+        dao.updateNoteContent(id, newContent)
     }
 
-    override suspend fun changeNoteCategory(id: Int, newCategory: String) {
-        dao.changeNoteCategory(id, newCategory)
+    override suspend fun updateNoteCategory(id: Int, newCategory: String) {
+        dao.updateNoteCategory(id, newCategory)
     }
 }

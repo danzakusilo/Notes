@@ -38,7 +38,7 @@ class DetailViewModel @ViewModelInject constructor(private val repository: NoteR
 
     fun editURI(id : Int, newURI : String?){
         viewModelScope.launch {
-            repository.changeNoteImageUri(id, newURI)
+            repository.updateNoteImageUri(id, newURI)
         }
     }
 
@@ -50,19 +50,19 @@ class DetailViewModel @ViewModelInject constructor(private val repository: NoteR
 
     fun editTitle(id : Int, newTitle : String?){
         viewModelScope.launch {
-            repository.changeNoteTitle(id ,newTitle)
+            repository.updateNoteTitle(id ,newTitle)
         }
     }
 
     fun editContent(id : Int, newContent : String?){
         viewModelScope.launch {
-            repository.changeNoteContent(id, newContent)
+            repository.updateNoteContent(id, newContent)
         }
     }
 
     fun editCategory(id : Int, newCategory : String){
         viewModelScope.launch {
-            repository.changeNoteCategory(id, newCategory)
+            repository.updateNoteCategory(id, newCategory)
         }
     }
 }

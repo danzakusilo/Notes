@@ -6,7 +6,6 @@ import com.example.dstarinterviewnotes.utils.MResult
 
 interface NoteRepository {
 
-    suspend fun changeNoteImageUri(id: Int, newUri : String?)
 
     suspend fun insertNote(note : NoteEntity)
 
@@ -18,9 +17,11 @@ interface NoteRepository {
 
     suspend fun deleteNote(id : Int)
 
-    suspend fun changeNoteTitle(id : Int, newTitle : String?)
+    suspend fun updateNoteTitle(id : Int, newTitle : String?)
 
-    suspend fun changeNoteContent(id : Int, newContent: String?)
+    suspend fun updateNoteContent(id : Int, newContent: String?)
 
-    suspend fun changeNoteCategory(id : Int, newCategory : String)
+    suspend fun updateNoteCategory(id : Int, newCategory : String)
+
+    suspend fun updateNoteImageUri(id: Int, newUri : String?)
 }
