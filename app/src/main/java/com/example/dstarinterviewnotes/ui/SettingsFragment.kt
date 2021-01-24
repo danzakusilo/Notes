@@ -10,6 +10,7 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -21,16 +22,14 @@ import kotlinx.android.synthetic.main.fragment_note_detail.*
 import java.util.*
 
 class SettingsFragment : Fragment() {
-    private lateinit var binding : FragmentSettingsBinding
-    private var sharedPref : SharedPreferences? = null
-    private var language : String? = ""
-
+    private lateinit var binding: FragmentSettingsBinding
+    private var sharedPref: SharedPreferences? = null
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater)
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
@@ -46,6 +45,7 @@ class SettingsFragment : Fragment() {
                     AppCompatDelegate.MODE_NIGHT_NO -> false
                     else -> false
                 }
+
         ArrayAdapter.createFromResource(
                 requireActivity(),
                 R.array.languages,

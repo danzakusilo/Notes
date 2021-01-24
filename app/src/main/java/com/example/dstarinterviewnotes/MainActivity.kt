@@ -2,10 +2,7 @@ package com.example.dstarinterviewnotes
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
-import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
@@ -13,12 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dstarinterviewnotes.databinding.ActivityMainBinding
-import com.example.dstarinterviewnotes.utils.setDarkMode
 import com.example.dstarinterviewnotes.utils.setLocale
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -28,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private var sharedPref : SharedPreferences? = null
     private var language : String? = ""
     private var nightMode : Int = 0
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,12 +34,9 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_notes, R.id.navigation_settings,
-        )
-        )
+                R.id.navigation_notes, R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
     }
 
     private fun restoreSettings(){

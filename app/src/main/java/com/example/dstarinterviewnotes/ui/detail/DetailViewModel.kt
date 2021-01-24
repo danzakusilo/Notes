@@ -60,9 +60,4 @@ class DetailViewModel @ViewModelInject constructor(private val repository: NoteR
         }
     }
 
-    fun editCategory(id : Int, newCategory : String){
-        viewModelScope.launch {
-            repository.updateNoteCategory(id, newCategory)
-        }
-    }
 }

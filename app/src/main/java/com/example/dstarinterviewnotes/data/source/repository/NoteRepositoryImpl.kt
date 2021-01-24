@@ -32,10 +32,6 @@ class NoteRepositoryImpl @Inject constructor(private val dao: NotesDao) : NoteRe
         }
     }
 
-    override suspend fun getByCategory(category: String): MResult<List<NoteEntity>?>{
-        val notes = dao.getByCategory(category)
-        return MResult.Success(notes) ?: MResult.Success(null)
-    }
 
     override suspend fun deleteNote(id: Int) {
         dao.deleteNote(id)
@@ -49,7 +45,4 @@ class NoteRepositoryImpl @Inject constructor(private val dao: NotesDao) : NoteRe
         dao.updateNoteContent(id, newContent)
     }
 
-    override suspend fun updateNoteCategory(id: Int, newCategory: String) {
-        dao.updateNoteCategory(id, newCategory)
-    }
 }

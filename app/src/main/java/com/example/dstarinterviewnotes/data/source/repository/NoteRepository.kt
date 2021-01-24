@@ -13,15 +13,11 @@ interface NoteRepository {
 
     suspend fun getNoteById(id : Int) : MResult<NoteEntity?>
 
-    suspend fun getByCategory(category : String) : MResult<List<NoteEntity>?>
-
     suspend fun deleteNote(id : Int)
 
     suspend fun updateNoteTitle(id : Int, newTitle : String?)
 
     suspend fun updateNoteContent(id : Int, newContent: String?)
-
-    suspend fun updateNoteCategory(id : Int, newCategory : String)
 
     suspend fun updateNoteImageUri(id: Int, newUri : String?)
 }

@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.dstarinterviewnotes.R
 import com.example.dstarinterviewnotes.data.source.local.database.entities.NoteEntity
 import com.example.dstarinterviewnotes.databinding.FragmentNoteDetailBinding
+import com.example.dstarinterviewnotes.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -35,7 +36,9 @@ class NotesDetailFragment : Fragment() {
 
     /*
     Эта переменная нужна чтобы временно хранить URI изображения, которое добавили в интерфейсе, но ещё не сохранили.
-    Мне не очень нравится такой подход, но друго решения я не придумал.
+    Мне не очень нравится такой подход, но единственный другой подход, который я видел https://stackoverflow.com/a/42200812/14915818,
+    как я понял, требует сделать от меня то же самое, только временно хранить не сам URI, а объект Bitmap, что не решает проблему "хранения состояния во фрагменте".
+    Всё это не имеет значения, конечно, если мой подход к сохранению заметки, собирая объект из элементов UI фундаментально неправильный.
      */
 
     private var imageUri: String = ""
@@ -97,7 +100,7 @@ class NotesDetailFragment : Fragment() {
             }
         }
         binding.addImageButton.setOnClickListener {
-            selectImage()
+            selectImageFromGallery()
         }
         binding.noteImage.setOnLongClickListener {
             showDeletePopup(it)
@@ -141,6 +144,7 @@ class NotesDetailFragment : Fragment() {
             viewModel.editContent(args.noteId, binding.contentEt.text.toString())
             viewModel.editURI(args.noteId, imageUri)
         }
+        hideKeyboard()
     }
 
     private fun showDeletePopup(view: View) {
@@ -174,7 +178,7 @@ class NotesDetailFragment : Fragment() {
     }
 
 
-    private fun selectImage() {
+    private fun selectImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, GALLERY_REQUST_CODE)
     }
@@ -186,7 +190,6 @@ class NotesDetailFragment : Fragment() {
                     Log.d("PICTURE", "onActivityResult: not cancelled")
                     Toast.makeText(requireActivity(), "RESULT OK", Toast.LENGTH_SHORT).show()
                     val uri = data.data
-                    Glide.with(this).load(uri).apply(RequestOptions.overrideOf(IMAGE_SIZE)).into(binding.noteImage)
                     imageUri = uri.toString()
                 }
             }

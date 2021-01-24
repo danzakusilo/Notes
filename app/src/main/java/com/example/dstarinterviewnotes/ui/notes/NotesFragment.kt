@@ -46,9 +46,7 @@ class NotesFragment : Fragment(){
         binding.newButton.setOnClickListener {
             view.findNavController().navigate(NotesFragmentDirections.actionToDetail(0, true))
         }
-
         setupSortSpinner()
-
         binding.searchEt.addTextChangedListener(
             object : TextWatcher {
                 override fun beforeTextChanged(

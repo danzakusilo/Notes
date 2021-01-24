@@ -11,7 +11,7 @@ import com.example.dstarinterviewnotes.MainActivity
 import java.util.*
 
 /*
-    В это методе есть утсаревшие методы, но чтобы от них избавиться, как я прочитал, нужно
+    В это методе есть утсаревшие вызовы, но чтобы от них избавиться, как я прочитал, нужно
     написать свой ContextWrapper или делать лишние неудобные и нерелевантные для этого проекта шаги,
     так что останется в таком виде.
  */
@@ -25,11 +25,5 @@ fun setLocale(lang: String?, context: Context) {
 }
 
 
-fun setDarkMode(darkMode : Boolean){
-    when(darkMode){
-        true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-    }
-}
 
 
