@@ -11,13 +11,13 @@ interface NotesDao {
     suspend fun insertNote(noteEntity: NoteEntity)
 
     @Query("SELECT * FROM NOTE WHERE id = :id")
-    suspend fun getNoteById(id : Int) : NoteEntity
+    suspend fun getNoteById(id : Int) : NoteEntity?
 
     @Query("SELECT * FROM Note ORDER BY creationTime")
-    suspend fun getAllNotes() : List<NoteEntity>
+    suspend fun getAllNotes() : List<NoteEntity>?
 
     @Query("SELECT * FROM NOTE WHERE category = :category")
-    suspend fun getByCategory(category : String) : List<NoteEntity>
+    suspend fun getByCategory(category : String) : List<NoteEntity>?
 
     @Query("delete from Note where id = :id")
     suspend fun deleteNote(id: Int)
